@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh -e
 
 # Install awscli and jq first!
 
