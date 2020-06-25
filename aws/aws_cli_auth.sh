@@ -1,10 +1,15 @@
-#!/bin/sh
+#!/bin/sh -x
 
 # Install awscli and jq first!
 
 USER="user"
 # Use AWS Account ID, not name!
 AWS_ACCOUNT_ID="000000000000"
+
+# If script fails with 'Unable to locate credentials' - run 'aws configure' and fill access_key and secret key
+# if it's absent -- login to
+# https://console.aws.amazon.com/iam/home?#/security_credentials
+# press 'create access key' and save it. Then run 'aws configure'. Check what file '~/.aws/credentials' exists.
 
 if [ -z "$1" ] ; then
 	echo "Usage: source $0 session-token"
