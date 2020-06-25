@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Install awscli and jq first!
+
 USER="user"
 # Use AWS Account ID, not name!
 AWS_ACCOUNT_ID="000000000000"
@@ -8,6 +10,8 @@ if [ -z "$1" ] ; then
 	echo "Usage: source $0 session-token"
 	exit 255
 fi
+
+SOURCE_FILE="~/source_aws"
 
 for var in AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY AWS_SESSION_TOKEN; do unset ${var}; done
 
@@ -20,3 +24,7 @@ export AWS_ACCESS_KEY_ID=$(echo $codes | jq -r .Credentials.AccessKeyId)
 export AWS_SECRET_ACCESS_KEY=$(echo $codes | jq -r .Credentials.SecretAccessKey)
 export AWS_SESSION_TOKEN=$(echo $codes | jq -r .Credentials.SessionToken)
 
+# fill "source" file for reuse session in other consoles
+echo "export AWS_ACCESS_KEY_ID=$(echo $codes | jq -r .Credentials.AccessKeyId)" > "$SOURCE_FILE"
+echo "export AWS_SECRET_ACCESS_KEY=$(echo $codes | jq -r .Credentials.SecretAccessKey) >> "$SOURCE_FILE"
+echo "export AWS_SESSION_TOKEN=$(echo $codes | jq -r .Credentials.SessionToken)" >> "$SOURCE_FILE"
